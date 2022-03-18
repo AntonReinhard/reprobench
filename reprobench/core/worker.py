@@ -31,7 +31,6 @@ from reprobench.utils import decode_message, import_class, send_event
 
 REQUEST_TIMEOUT = 15000
 
-
 class BenchmarkWorker:
     @staticmethod
     def cnt(values, lst):

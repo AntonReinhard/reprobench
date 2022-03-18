@@ -3,9 +3,12 @@ import os
 import pathlib
 
 import yaml
+import sys
 
 from reprobench.managers.local import LocalManager
 from loguru import logger
+
+logger.remove()
 
 #TODO: move to click?
 parser = argparse.ArgumentParser(description='%(prog)s -r remoteid:port -i cluster_job_id')

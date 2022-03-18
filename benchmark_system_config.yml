@@ -14,8 +14,8 @@ reserve_cores: 24
 #https://doc.zih.tu-dresden.de/hpc-wiki/pub/Compendium/HardwareTaurus/i4000.png
 billing: p_gpusat
 multicore:
-#  processes: 6
-#  cores_per_process: 2
+  processes: 22
+  cores_per_process: 1
   pinning:
     controller:
       - 0
@@ -29,7 +29,7 @@ multicore:
       3: 14..18
       4: 19..23
 server_url: "tcp://127.0.0.1:31313"
-email: "johannes.fichte@tu-dresden.de"
+email: "anton.reinhard@tu-dresden.de"
 reserve_time: "18:00:00"
 
 

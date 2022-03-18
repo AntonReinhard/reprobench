@@ -15,9 +15,7 @@ with open('./benchmark_system_config.yml') as config_f:
 
 
 # print(mconfig['server_url'])
-# logger.add(sys.stderr, level="TRACE")
+# logger.add(sys.stdout, level="TRACE")
 s = BenchmarkServer(mconfig['server_url'], verbosity=2)
 
 s.run()
-
-

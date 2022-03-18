@@ -1,5 +1,5 @@
 title: MC2021
-description: Benchmark for mergesat experiments (norbert)
+description: Benchmark for be experiments (anton)
 
 limits:
 #  time: 5 # s
@@ -12,11 +12,11 @@ steps:
   run:
 # move to step that runs once on a node, but not every time; there is no point in collecting the data every time
     - module: reprobench.core.sysinfo.CollectSystemInfo4Server
-    - module: reprobench.core.setup.SetupKernel
-      config:
+#    - module: reprobench.core.setup.SetupKernel
+#      config:
 #        transparent_hugepage: madvise
-        # see: https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html
-        governors: 2.8Ghz
+#        see: https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html
+#        governors: 2.8Ghz
     # TODO: performance govenors / --cpu-freq srun
     - module: reprobench.executors.RunSolverPerfEval
     # provide non-perf runner
@@ -30,26 +30,26 @@ observers:
 #  - module: reprobench.executors.RunStatisticObserver
   - module: reprobench.executors.RunStatisticExtendedObserver
 
-#  analysis:
-#    - module: reprobench.statistics.tables.RunTable
-#      config:
-#        joins:
-#          - reprobench.executors.db.RunStatistic
-#          - reprobench.core.sysinfo.RunNode
-#        output: statistics/raw.csv
-#    - module: reprobench.statistics.tables.RunSummaryTable
-#      config:
-#        output: statistics/summary.csv
-#    - module: reprobench.statistics.plots.CactusPlot
-#      config:
-#        measure: wall_time
-#        output: statistics/cactus.ipynb
+analysis:
+  - module: reprobench.statistics.tables.RunTable
+    config:
+      joins:
+        - reprobench.executors.db.RunStatistic
+        - reprobench.core.sysinfo.RunNode
+      output: statistics/raw.csv
+  - module: reprobench.statistics.tables.RunSummaryTable
+    config:
+      output: statistics/summary.csv
+  - module: reprobench.statistics.plots.CactusPlot
+    config:
+      measure: wall_time
+      output: statistics/cactus.ipynb
 
 tasks:
   track1_full:
     type: file
 #    path: /projects/p_mcc2020/track1/benchmarks/
-    path: /projects/sat/mccompetition/mc_competitions/MCC2021/reprobench/instances/track1_all
+    path: /home/anton/instances/track1_all/
     extract_archives: true
     patterns: |
       **/*.mcc2020_cnf
@@ -74,20 +74,21 @@ tools:
     module: experiment.mc2021.executor.PrefExec
     parameters:
         bash:
-          exec_tmpdir: "/run/shm/runsolver_mc2021_track1_{solver}_{filename}_{run}/"
+          exec_tmpdir: "/dev/shm/runsolver_mc2021_track1_{solver}_{filename}_{run}/"
           #not implemented
-          delete_tmp: True
-          cmd: "/projects/sat/mccompetition/mc_competitions/MCC2021/reprobench/experiment/mc2021/0-mc2020/track1/{solver}/{solver}_wrapper.sh --tmpdir={tmpdir} --origfile={ofilename} --timeout={walllimit} --maxtmp={maxtmp} --maxrss={memlimit} --task=mc {filename}"
+          delete_tmp: False
+          cmd: "/home/anton/repos/reprobench/experiment/mc2021/0-mc2020/track1/{solver}/{solver}_wrapper.sh --tmpdir={tmpdir} --timeout={walllimit} --maxtmp={maxtmp} --maxrss={memlimit} --task=mc {filename}"
           env: "TMPDIR={tmpdir}"
           solver:
-            - cril-d4
-            - nus-ganak
-            - nus-onlyapprox
-            - rice-addmc
-            - ucla-c2d-bpe2
-            - ucla-minic2d
-            - ucla-minic2d-bpe
-            - ucla-sdd-bpe
+            - riss
+            #- cril-d4
+            #- nus-ganak
+            #- nus-onlyapprox
+            #- rice-addmc
+            #- ucla-c2d-bpe2
+            #- ucla-minic2d
+            #- ucla-minic2d-bpe
+            #- ucla-sdd-bpe
 
 #        py:
 #          cmd: "/projects/p_mcc2020/track1/bin/solver_binaries/{solver}.py {filename}"
